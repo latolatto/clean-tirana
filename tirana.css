@@ -64,3 +64,6 @@
 
 /* Preserve the original logo colours with contrast against the dark footer. */
 .site-footer .footer-brand .brand img{filter:none;background:var(--paper);padding:7px;border-radius:13px;box-shadow:0 3px 12px #00000012}
+
+/* Transparent footer logo in its original colours. */
+.site-footer .footer-brand .brand img{filter:none;background:transparent;padding:0;border-radius:0;box-shadow:none}
