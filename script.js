@@ -112,7 +112,11 @@
     const size = pair[side + 'Size'];
     const h = matrix || identityMatrix;
     const s = [h[0]-crop.x*h[6],h[1]-crop.x*h[7],h[2]-crop.x*h[8],h[3]-crop.y*h[6],h[4]-crop.y*h[7],h[5]-crop.y*h[8],h[6],h[7],h[8]];
-    img.src = pair[side];
+    if (pair[side + 'Display']) {
+      img.srcset = pair[side + 'Display'] + ' ' + pair[side + 'DisplayWidth'] + 'w, ' + pair[side] + ' ' + size.width + 'w';
+      img.sizes = '(max-width: 760px) calc(100vw - 40px), (max-width: 1100px) 60vw, 760px';
+    }
+    img.src = pair[side + 'Display'] || pair[side];
     img.alt = pair.title + (side === 'before' ? ' — para larjes' : ' — pas larjes');
     img.style.width = size.width + 'px';
     img.style.height = size.height + 'px';
@@ -149,6 +153,7 @@
     previous.disabled = next.disabled = pairs.length < 2;
     if (animate && !reduced.matches) { figure.classList.remove('is-switching'); void figure.offsetWidth; figure.classList.add('is-switching'); }
   }
+  thumbs.replaceChildren();
   if (pairs.length > 1) pairs.forEach((pair,index) => {
     const button = document.createElement('button');
     button.type = 'button'; button.className = 'comparison-thumb';
@@ -174,67 +179,30 @@
   const playIcon = '<svg viewBox="0 0 18 22" aria-hidden="true"><path d="M2 2 16 11 2 20Z" fill="currentColor"/></svg>';
   const pauseIcon = '<svg viewBox="0 0 18 22" aria-hidden="true"><path d="M5 3v16M13 3v16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
   (content.videos || []).forEach((item, index) => {
-    const figure = document.createElement('figure');
-    figure.className = 'video-card';
-    const frame = document.createElement('div');
-    frame.className = 'video-frame';
-    const video = document.createElement('video');
-    video.preload = 'auto';
-    video.muted = true;
-    video.defaultMuted = true;
-    video.autoplay = true;
-    video.loop = true;
-    video.playsInline = true;
-    video.controls = false;
-    video.setAttribute('muted', '');
-    video.setAttribute('autoplay', '');
-    video.setAttribute('loop', '');
-    video.setAttribute('playsinline', '');
-    video.src = item.src;
-    video.setAttribute('aria-label', item.title);
-    const play = document.createElement('button');
-    play.type = 'button';
-    play.className = 'video-play';
-    play.setAttribute('aria-label', 'Ndalo videon: ' + item.title);
-    play.innerHTML = '<span>' + pauseIcon + '</span>';
-    play.addEventListener('click', async () => {
-      if (!video.paused) { video.pause(); return; }
-      try { await video.play(); } catch { showVideoError(); }
-    });
-    function updatePlaybackControl() {
-      frame.classList.toggle('playing', !video.paused);
-      play.setAttribute('aria-label', (video.paused ? 'Luaj videon: ' : 'Ndalo videon: ') + item.title);
-      play.innerHTML = '<span>' + (video.paused ? playIcon : pauseIcon) + '</span>';
-    }
-    video.addEventListener('play', () => {
-      updatePlaybackControl();
-    });
-    video.addEventListener('pause', updatePlaybackControl);
-    function showVideoError() {
-      if (frame.querySelector('.video-error')) return;
-      const error = document.createElement('a');
-      error.className = 'video-error';
-      error.href = 'https://www.instagram.com/kompani_pastrimi_tirana/';
-      error.target = '_blank'; error.rel = 'noopener';
-      error.textContent = 'Shihni videot në Instagram ↗';
-      frame.append(error);
-    }
-    video.addEventListener('error', showVideoError);
-    frame.append(video, play);
-    const caption = document.createElement('figcaption');
-    const captionText = document.createElement('div');
-    const title = document.createElement('h3'); title.textContent = item.title;
-    const subtitle = document.createElement('p'); subtitle.textContent = item.subtitle || '';
-    captionText.append(title, subtitle);
-    caption.append(captionText);
-    figure.append(frame, caption); videoGrid.append(figure);
-    // Muted inline playback is compatible with mobile autoplay policies.
-    // Keep a manual play fallback if the browser enables a power-saving block.
-    video.play().catch(updatePlaybackControl);
+    const figure = videoGrid.querySelector('[data-video-index="' + index + '"]') || document.createElement('figure');
+    figure.className = 'video-card'; figure.dataset.videoIndex = String(index);
+    const frame = figure.querySelector('.video-frame') || document.createElement('div'); frame.className = 'video-frame';
+    const video = frame.querySelector('video') || document.createElement('video');
+    video.preload = 'auto'; video.muted = true; video.defaultMuted = true; video.autoplay = true; video.loop = true; video.playsInline = true; video.controls = false;
+    ['muted','autoplay','loop','playsinline'].forEach(attribute => video.setAttribute(attribute,''));
+    if (video.getAttribute('src') !== item.src) video.src = item.src;
+    video.setAttribute('aria-label', item.title + ' — Kompani Pastrimi Tirana');
+    const play = frame.querySelector('.video-play') || document.createElement('button'); play.type = 'button'; play.className = 'video-play';
+    function updatePlaybackControl() { frame.classList.toggle('playing',!video.paused); play.setAttribute('aria-label',(video.paused ? 'Luaj videon: ' : 'Ndalo videon: ') + item.title); play.innerHTML = '<span>' + (video.paused ? playIcon : pauseIcon) + '</span>'; }
+    play.addEventListener('click',async () => { if (!video.paused) { video.pause(); return; } try { await video.play(); } catch { showVideoError(); } });
+    video.addEventListener('play',updatePlaybackControl); video.addEventListener('pause',updatePlaybackControl);
+    function showVideoError() { if (frame.querySelector('.video-error')) return; const error = document.createElement('a'); error.className = 'video-error'; error.href = 'https://www.instagram.com/kompani_pastrimi_tirana/'; error.target = '_blank'; error.rel = 'noopener'; error.textContent = 'Shihni videot në Instagram ↗'; frame.append(error); }
+    video.addEventListener('error',showVideoError);
+    frame.append(video,play);
+    const caption = figure.querySelector('figcaption') || document.createElement('figcaption');
+    if (!caption.children.length) { const text = document.createElement('div'); const title = document.createElement('h3'); title.textContent = item.title; const subtitle = document.createElement('p'); subtitle.textContent = item.subtitle || ''; text.append(title,subtitle); caption.append(text); }
+    figure.append(frame,caption); if (!figure.isConnected) videoGrid.append(figure);
+    updatePlaybackControl(); video.play().catch(updatePlaybackControl);
   });
 
   const reviews = (content.reviews || []).filter(item => typeof item.name === 'string' && typeof item.text === 'string' && item.name.trim() && item.text.trim());
   $('#reviewsEmpty').hidden = reviews.length > 0;
+  $('#pershtypje').hidden = reviews.length === 0;
   reviews.forEach((item, index) => {
     const figure = document.createElement('figure');
     figure.className = 'review-card';

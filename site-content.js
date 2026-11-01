@@ -1,4 +1,4 @@
-/* Business photo sources preserved. 4K files are high-quality resampled exports, without synthesized photographic detail. Preview images remain lightweight. */
+/* Full 4K assets are preserved. Responsive WebP candidates and lightweight previews reduce network cost without changing the comparison coordinates. */
 window.TIRANA_CONTENT = {
   "mediaIsReference": false,
   "comparisons": [
@@ -27,7 +27,7 @@ window.TIRANA_CONTENT = {
         2170.066225165563,
         2766.872427983539
       ],
-      "beforePreview": "assets/sofa-grey-before-clean.png",
+      "beforePreview": "assets/optimized/sofa-grey-before-clean-preview.webp",
       "beforePreviewSize": {
         "width": 1313,
         "height": 1198
@@ -38,7 +38,7 @@ window.TIRANA_CONTENT = {
         653.9521345407503,
         849.645390070922
       ],
-      "afterPreview": "assets/sofa-grey-after.png",
+      "afterPreview": "assets/optimized/sofa-grey-after-preview.webp",
       "afterPreviewSize": {
         "width": 755,
         "height": 729
@@ -48,7 +48,13 @@ window.TIRANA_CONTENT = {
         125,
         400,
         510
-      ]
+      ],
+      "beforeDisplay": "assets/optimized/sofa-grey-before-clean-display.webp",
+      "beforeDisplayWidth": 1600,
+      "beforePreviewOriginal": "assets/sofa-grey-before-clean.png",
+      "afterDisplay": "assets/optimized/sofa-grey-after-display.webp",
+      "afterDisplayWidth": 1600,
+      "afterPreviewOriginal": "assets/sofa-grey-after.png"
     },
     {
       "id": "beige-corner",
@@ -75,7 +81,7 @@ window.TIRANA_CONTENT = {
         3450.9606299212596,
         3096.130198915009
       ],
-      "beforePreview": "assets/sofa-beige-before.png",
+      "beforePreview": "assets/optimized/sofa-beige-before-preview.webp",
       "beforePreviewSize": {
         "width": 581,
         "height": 511
@@ -86,7 +92,7 @@ window.TIRANA_CONTENT = {
         500,
         465
       ],
-      "afterPreview": "assets/sofa-beige-after.png",
+      "afterPreview": "assets/optimized/sofa-beige-after-preview.webp",
       "afterPreviewSize": {
         "width": 635,
         "height": 553
@@ -96,7 +102,13 @@ window.TIRANA_CONTENT = {
         20,
         535,
         480
-      ]
+      ],
+      "beforeDisplay": "assets/optimized/sofa-beige-before-display.webp",
+      "beforeDisplayWidth": 1600,
+      "beforePreviewOriginal": "assets/sofa-beige-before.png",
+      "afterDisplay": "assets/optimized/sofa-beige-after-display.webp",
+      "afterDisplayWidth": 1600,
+      "afterPreviewOriginal": "assets/sofa-beige-after.png"
     },
     {
       "id": "grey-sofa",
@@ -123,7 +135,7 @@ window.TIRANA_CONTENT = {
         1669.1332470892628,
         2729.2697466467957
       ],
-      "beforePreview": "assets/comparison-grey-collage.png",
+      "beforePreview": "assets/optimized/comparison-grey-collage-preview.webp",
       "beforePreviewSize": {
         "width": 773,
         "height": 671
@@ -134,7 +146,7 @@ window.TIRANA_CONTENT = {
         365,
         535
       ],
-      "afterPreview": "assets/comparison-grey-collage.png",
+      "afterPreview": "assets/optimized/comparison-grey-collage-preview.webp",
       "afterPreviewSize": {
         "width": 773,
         "height": 671
@@ -144,7 +156,13 @@ window.TIRANA_CONTENT = {
         62,
         315,
         515
-      ]
+      ],
+      "beforeDisplay": "assets/optimized/comparison-grey-collage-display.webp",
+      "beforeDisplayWidth": 1600,
+      "beforePreviewOriginal": "assets/comparison-grey-collage.png",
+      "afterDisplay": "assets/optimized/comparison-grey-collage-display.webp",
+      "afterDisplayWidth": 1600,
+      "afterPreviewOriginal": "assets/comparison-grey-collage.png"
     },
     {
       "id": "cream-armchair",
@@ -189,16 +207,22 @@ window.TIRANA_CONTENT = {
           1
         ]
       },
-      "beforePreview": "assets/chair-before.png",
+      "beforePreview": "assets/optimized/chair-before-preview.webp",
       "beforePreviewSize": {
         "width": 1254,
         "height": 1254
       },
-      "afterPreview": "assets/chair-after.png",
+      "afterPreview": "assets/optimized/chair-after-preview.webp",
       "afterPreviewSize": {
         "width": 1254,
         "height": 1254
-      }
+      },
+      "beforeDisplay": "assets/optimized/chair-before-display.webp",
+      "beforeDisplayWidth": 1600,
+      "beforePreviewOriginal": "assets/chair-before.png",
+      "afterDisplay": "assets/optimized/chair-after-display.webp",
+      "afterDisplayWidth": 1600,
+      "afterPreviewOriginal": "assets/chair-after.png"
     },
     {
       "id": "soft-armchair",
@@ -225,7 +249,7 @@ window.TIRANA_CONTENT = {
         3079.97247706422,
         3302.201550387597
       ],
-      "beforePreview": "assets/armchair-before.png",
+      "beforePreview": "assets/optimized/armchair-before-preview.webp",
       "beforePreviewSize": {
         "width": 629,
         "height": 693
@@ -236,7 +260,7 @@ window.TIRANA_CONTENT = {
         535,
         520
       ],
-      "afterPreview": "assets/armchair-after.png",
+      "afterPreview": "assets/optimized/armchair-after-preview.webp",
       "afterPreviewSize": {
         "width": 545,
         "height": 645
@@ -246,7 +270,13 @@ window.TIRANA_CONTENT = {
         78,
         485,
         520
-      ]
+      ],
+      "beforeDisplay": "assets/optimized/armchair-before-display.webp",
+      "beforeDisplayWidth": 1452,
+      "beforePreviewOriginal": "assets/armchair-before.png",
+      "afterDisplay": "assets/optimized/armchair-after-display.webp",
+      "afterDisplayWidth": 1352,
+      "afterPreviewOriginal": "assets/armchair-after.png"
     },
     {
       "id": "grey-seat",
@@ -273,7 +303,7 @@ window.TIRANA_CONTENT = {
         2774.3074581430747,
         2524.992076069731
       ],
-      "beforePreview": "assets/seat-grey-before.png",
+      "beforePreview": "assets/optimized/seat-grey-before-preview.webp",
       "beforePreviewSize": {
         "width": 777,
         "height": 623
@@ -284,7 +314,7 @@ window.TIRANA_CONTENT = {
         475,
         420
       ],
-      "afterPreview": "assets/seat-grey-after.png",
+      "afterPreview": "assets/optimized/seat-grey-after-preview.webp",
       "afterPreviewSize": {
         "width": 657,
         "height": 631
@@ -294,7 +324,13 @@ window.TIRANA_CONTENT = {
         170,
         445,
         405
-      ]
+      ],
+      "beforeDisplay": "assets/optimized/seat-grey-before-display.webp",
+      "beforeDisplayWidth": 1600,
+      "beforePreviewOriginal": "assets/seat-grey-before.png",
+      "afterDisplay": "assets/optimized/seat-grey-after-display.webp",
+      "afterDisplayWidth": 1600,
+      "afterPreviewOriginal": "assets/seat-grey-after.png"
     },
     {
       "id": "white-upholstery",
@@ -321,7 +357,7 @@ window.TIRANA_CONTENT = {
         1491.9811320754718,
         1112.158940397351
       ],
-      "beforePreview": "assets/comparison-white-collage.png",
+      "beforePreview": "assets/optimized/comparison-white-collage-preview.webp",
       "beforePreviewSize": {
         "width": 583,
         "height": 755
@@ -332,7 +368,7 @@ window.TIRANA_CONTENT = {
         275,
         205
       ],
-      "afterPreview": "assets/comparison-white-collage.png",
+      "afterPreview": "assets/optimized/comparison-white-collage-preview.webp",
       "afterPreviewSize": {
         "width": 583,
         "height": 755
@@ -342,7 +378,13 @@ window.TIRANA_CONTENT = {
         480,
         275,
         205
-      ]
+      ],
+      "beforeDisplay": "assets/optimized/comparison-white-collage-display.webp",
+      "beforeDisplayWidth": 1236,
+      "beforePreviewOriginal": "assets/comparison-white-collage.png",
+      "afterDisplay": "assets/optimized/comparison-white-collage-display.webp",
+      "afterDisplayWidth": 1236,
+      "afterPreviewOriginal": "assets/comparison-white-collage.png"
     }
   ],
   "videos": [
