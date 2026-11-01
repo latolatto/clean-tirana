@@ -163,7 +163,7 @@
     const size = pair.afterPreviewSize || pair.afterSize;
     svg.setAttribute('viewBox',(pair.afterPreviewCrop || pair.afterCrop || [0,0,size.width,size.height]).join(' '));
     svg.setAttribute('preserveAspectRatio','xMidYMid slice');svg.setAttribute('aria-hidden','true');
-    const img = document.createElementNS(ns,'image');img.setAttribute('href',pair.afterPreview || pair.after);img.setAttribute('width',size.width);img.setAttribute('height',size.height);svg.append(img);button.append(svg);
+    const img = document.createElementNS(ns,'image');img.dataset.src = pair.afterPreview || pair.after;img.setAttribute('width',size.width);img.setAttribute('height',size.height);svg.append(img);button.append(svg);
     button.addEventListener('click',() => showComparison(index));thumbs.append(button);
   });
   previous?.addEventListener('click',() => showComparison(activePair - 1));
@@ -172,24 +172,73 @@
   if ('ResizeObserver' in window) new ResizeObserver(fitComparison).observe(stage);
   else window.addEventListener('resize',fitComparison);
   showComparison(0,false);
-  // Warm the genuine image assets once; collage sources are fetched only once.
-  [...new Set(pairs.flatMap(pair => [pair.beforePreview || pair.before,pair.afterPreview || pair.after]))].forEach(src => { const preload = new Image(); preload.decoding = 'async'; preload.src = src; });
+  // Fetch thumbnails only as the comparison section approaches the viewport.
+  function loadComparisonThumbnails() {
+    thumbs.querySelectorAll('image[data-src]').forEach(image => {
+      image.setAttribute('href',image.dataset.src);
+      delete image.dataset.src;
+    });
+  }
+  if ('IntersectionObserver' in window) {
+    const thumbnailObserver = new IntersectionObserver(entries => {
+      if (!entries.some(entry => entry.isIntersecting)) return;
+      loadComparisonThumbnails();
+      thumbnailObserver.disconnect();
+    }, {rootMargin:'600px 0px'});
+    thumbnailObserver.observe(stage);
+  } else loadComparisonThumbnails();
 
   const videoGrid = $('#videoGrid');
   const playIcon = '<svg viewBox="0 0 18 22" aria-hidden="true"><path d="M2 2 16 11 2 20Z" fill="currentColor"/></svg>';
   const pauseIcon = '<svg viewBox="0 0 18 22" aria-hidden="true"><path d="M5 3v16M13 3v16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
+  const videoPlayers = new Map();
+  function syncVideoPlayback(player) {
+    const {video} = player;
+    if (document.hidden || !player.visible || player.manuallyPaused) {
+      video.pause();
+      return;
+    }
+    video.play().then(() => {
+      // A pending play request can resolve after the visitor scrolls away.
+      if (document.hidden || !player.visible || player.manuallyPaused) video.pause();
+    }).catch(player.update);
+  }
+  const videoWarmup = 'IntersectionObserver' in window ? new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      // Metadata is enough to prepare playback without downloading every clip.
+      entry.target.preload = 'metadata';
+      videoWarmup.unobserve(entry.target);
+    });
+  }, {rootMargin:'300px 0px'}) : null;
+  const videoVisibility = 'IntersectionObserver' in window ? new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      const player = videoPlayers.get(entry.target);
+      player.visible = entry.isIntersecting && entry.intersectionRatio >= 0.1;
+      syncVideoPlayback(player);
+    });
+  }, {threshold:[0,0.1]}) : null;
   (content.videos || []).forEach((item, index) => {
     const figure = videoGrid.querySelector('[data-video-index="' + index + '"]') || document.createElement('figure');
     figure.className = 'video-card'; figure.dataset.videoIndex = String(index);
     const frame = figure.querySelector('.video-frame') || document.createElement('div'); frame.className = 'video-frame';
     const video = frame.querySelector('video') || document.createElement('video');
-    video.preload = 'auto'; video.muted = true; video.defaultMuted = true; video.autoplay = true; video.loop = true; video.playsInline = true; video.controls = false;
-    ['muted','autoplay','loop','playsinline'].forEach(attribute => video.setAttribute(attribute,''));
+    video.preload = 'none'; video.muted = true; video.defaultMuted = true; video.autoplay = false; video.loop = true; video.playsInline = true; video.controls = false;
+    video.removeAttribute('autoplay');
+    ['muted','loop','playsinline'].forEach(attribute => video.setAttribute(attribute,''));
+    video.setAttribute('loading','lazy');
     if (video.getAttribute('src') !== item.src) video.src = item.src;
+    if (item.poster) video.poster = item.poster;
     video.setAttribute('aria-label', item.title + ' — Kompani Pastrimi Tirana');
     const play = frame.querySelector('.video-play') || document.createElement('button'); play.type = 'button'; play.className = 'video-play';
     function updatePlaybackControl() { frame.classList.toggle('playing',!video.paused); play.setAttribute('aria-label',(video.paused ? 'Luaj videon: ' : 'Ndalo videon: ') + item.title); play.innerHTML = '<span>' + (video.paused ? playIcon : pauseIcon) + '</span>'; }
-    play.addEventListener('click',async () => { if (!video.paused) { video.pause(); return; } try { await video.play(); } catch { showVideoError(); } });
+    const player = {video,visible:false,manuallyPaused:false,update:updatePlaybackControl};
+    videoPlayers.set(video,player);
+    play.addEventListener('click',async () => {
+      player.manuallyPaused = !video.paused;
+      if (player.manuallyPaused) { video.pause(); return; }
+      try { await video.play(); } catch { showVideoError(); }
+    });
     video.addEventListener('play',updatePlaybackControl); video.addEventListener('pause',updatePlaybackControl);
     function showVideoError() { if (frame.querySelector('.video-error')) return; const error = document.createElement('a'); error.className = 'video-error'; error.href = 'https://www.instagram.com/kompani_pastrimi_tirana/'; error.target = '_blank'; error.rel = 'noopener'; error.textContent = 'Shihni videot në Instagram ↗'; frame.append(error); }
     video.addEventListener('error',showVideoError);
@@ -197,8 +246,12 @@
     const caption = figure.querySelector('figcaption') || document.createElement('figcaption');
     if (!caption.children.length) { const text = document.createElement('div'); const title = document.createElement('h3'); title.textContent = item.title; const subtitle = document.createElement('p'); subtitle.textContent = item.subtitle || ''; text.append(title,subtitle); caption.append(text); }
     figure.append(frame,caption); if (!figure.isConnected) videoGrid.append(figure);
-    updatePlaybackControl(); video.play().catch(updatePlaybackControl);
+    updatePlaybackControl();
+    videoWarmup?.observe(video);
+    videoVisibility?.observe(video);
+    // Without observer support the play button remains available.
   });
+  document.addEventListener('visibilitychange',() => videoPlayers.forEach(syncVideoPlayback));
 
   const reviews = (content.reviews || []).filter(item => typeof item.name === 'string' && typeof item.text === 'string' && item.name.trim() && item.text.trim());
   $('#reviewsEmpty').hidden = reviews.length > 0;

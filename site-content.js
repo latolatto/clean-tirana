@@ -1,4 +1,3 @@
-/* Full 4K assets are preserved. Responsive WebP candidates and lightweight previews reduce network cost without changing the comparison coordinates. */
 window.TIRANA_CONTENT = {
   "mediaIsReference": false,
   "comparisons": [
@@ -202,7 +201,7 @@ window.TIRANA_CONTENT = {
           -0.004072051289094467,
           1.545606533012839,
           -2025.6072634223744,
-          -0.00004906101839247645,
+          -4.906101839247645e-05,
           0.0006556312879168098,
           1
         ]
@@ -389,24 +388,28 @@ window.TIRANA_CONTENT = {
   ],
   "videos": [
     {
-      "src": "assets/tirana-pastrim-01.mp4",
+      "src": "assets/optimized/videos/tirana-01-feff7b1a30.mp4",
       "title": "Kujdes në çdo detaj",
-      "subtitle": "Kompani Pastrimi Tirana"
+      "subtitle": "Kompani Pastrimi Tirana",
+      "poster": "assets/optimized/videos/tirana-01-feff7b1a30.webp"
     },
     {
-      "src": "assets/tirana-pastrim-02.mp4",
+      "src": "assets/optimized/videos/tirana-02-020f1ae935.mp4",
       "title": "Larje profesionale",
-      "subtitle": "Kompani Pastrimi Tirana"
+      "subtitle": "Kompani Pastrimi Tirana",
+      "poster": "assets/optimized/videos/tirana-02-020f1ae935.webp"
     },
     {
-      "src": "assets/tirana-pastrim-03.mp4",
+      "src": "assets/optimized/videos/tirana-03-095334e324.mp4",
       "title": "Freski për tapicerinë",
-      "subtitle": "Kompani Pastrimi Tirana"
+      "subtitle": "Kompani Pastrimi Tirana",
+      "poster": "assets/optimized/videos/tirana-03-095334e324.webp"
     },
     {
-      "src": "assets/tirana-pastrim-04.mp4",
+      "src": "assets/optimized/videos/tirana-04-29f912bfc1.mp4",
       "title": "Nga puna jonë",
-      "subtitle": "Kompani Pastrimi Tirana"
+      "subtitle": "Kompani Pastrimi Tirana",
+      "poster": "assets/optimized/videos/tirana-04-29f912bfc1.webp"
     }
   ],
   "reviews": []

@@ -1,0 +1,34 @@
+[
+  {
+    "original": "assets/tirana-pastrim-01.mp4",
+    "src": "assets/optimized/videos/tirana-01-feff7b1a30.mp4",
+    "poster": "assets/optimized/videos/tirana-01-feff7b1a30.webp",
+    "originalBytes": 10918012,
+    "bytes": 4459223,
+    "posterBytes": 14486
+  },
+  {
+    "original": "assets/tirana-pastrim-02.mp4",
+    "src": "assets/optimized/videos/tirana-02-020f1ae935.mp4",
+    "poster": "assets/optimized/videos/tirana-02-020f1ae935.webp",
+    "originalBytes": 3131037,
+    "bytes": 1782856,
+    "posterBytes": 4838
+  },
+  {
+    "original": "assets/tirana-pastrim-03.mp4",
+    "src": "assets/optimized/videos/tirana-03-095334e324.mp4",
+    "poster": "assets/optimized/videos/tirana-03-095334e324.webp",
+    "originalBytes": 4730210,
+    "bytes": 2296223,
+    "posterBytes": 7944
+  },
+  {
+    "original": "assets/tirana-pastrim-04.mp4",
+    "src": "assets/optimized/videos/tirana-04-29f912bfc1.mp4",
+    "poster": "assets/optimized/videos/tirana-04-29f912bfc1.webp",
+    "originalBytes": 3725483,
+    "bytes": 1294304,
+    "posterBytes": 14380
+  }
+]
